@@ -33,3 +33,7 @@ BTN.addEventListener("click", (evt) => {
 
   FORM.style.display = FORM.style.display === "block" ? "none" : "block";
 });
+
+// Add markers cluster Groups to Map
+var markers = (<any>L).markerClusterGroup();
+MAP.addLayer(markers);
