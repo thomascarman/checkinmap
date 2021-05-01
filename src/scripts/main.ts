@@ -37,3 +37,23 @@ BTN.addEventListener("click", (evt) => {
 // Add markers cluster Groups to Map
 var markers = (<any>L).markerClusterGroup();
 MAP.addLayer(markers);
+
+/**
+ * Uses address to make a geocoding api request to mapbox to get coordinates.
+ * @param {string} search Expecting address (city, state, zip)
+ * @param {function} callback
+ */
+function getCoordFromAddress(search: string, callback?: any) {
+  if (typeof callback !== "function" || typeof search !== "string")
+    throw new Error("Invalid Values for getCoordFromAddress function.");
+
+  search = encodeURIComponent(search);
+  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${API_KEY}`;
+
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => callback(res?.features?.[0]))
+    .catch((err) => {
+      throw new Error(err);
+    });
+}
