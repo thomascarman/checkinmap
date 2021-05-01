@@ -1,3 +1,4 @@
+// Constent Values
 const API_KEY: string | undefined = process.env.API_KEY;
 const FORM: HTMLElement | null = document.getElementById("form");
 const BTN: HTMLButtonElement = document.createElement("button");
@@ -5,6 +6,12 @@ const MAP: L.Map = L.map("hot-map-container");
 
 const LATLNG_DEFAULT: L.LatLngExpression = { lat: 31.2, lng: -99.67 };
 const ZOOM_DEFAULT: number = 4;
+
+// Setup Defaults and DOM Elements
+BTN.innerHTML = "Check In";
+document.body.append(BTN);
+MAP.setView(LATLNG_DEFAULT, ZOOM_DEFAULT);
+
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
   {
