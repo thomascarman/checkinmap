@@ -57,3 +57,20 @@ function getCoordFromAddress(search: string, callback?: any) {
       throw new Error(err);
     });
 }
+
+/**
+ * Request all submitted addresses to Database.
+ */
+function displayAddresses(addresses: string[]) {
+  let addressCount = addresses.length;
+
+  for (let i = 0; i < addressCount; i++) {
+    getCoordFromAddress(addresses[i], (data: any) => {
+      if (data?.center) {
+        markers.addLayer(L.marker(data.center.reverse()));
+      }
+    });
+  }
+}
+
+displayAddresses(["Las Vegas Nevada 88901"]);
