@@ -26,6 +26,10 @@ L.tileLayer(
   }
 ).addTo(MAP);
 
-mymap.addEventListener("click", (evt: any) => {
-  console.log(evt);
+// Toggle Display of Dialog Form
+BTN.addEventListener("click", (evt) => {
+  evt.preventDefault();
+  if (!FORM) return;
+
+  FORM.style.display = FORM.style.display === "block" ? "none" : "block";
 });
