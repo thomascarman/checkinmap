@@ -12,6 +12,7 @@ BTN.innerHTML = "Check In";
 document.body.append(BTN);
 MAP.setView(LATLNG_DEFAULT, ZOOM_DEFAULT);
 
+// Add Map Images from Mapbox api
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
   {
@@ -21,10 +22,9 @@ L.tileLayer(
     id: "mapbox/streets-v11",
     tileSize: 512,
     zoomOffset: -1,
-    //! Have not setup env Yet
     accessToken: process.env.API_KEY,
   }
-).addTo(mymap);
+).addTo(MAP);
 
 mymap.addEventListener("click", (evt: any) => {
   console.log(evt);
