@@ -6,12 +6,13 @@
   "license": "MIT",
   "description": "",
   "scripts": {
-    "build": "npm-run-all -s build:*",
-    "build:ts": "tsc",
-    "build:sass": "sass src/sass/main.sass public/dist/css/main.css",
+    "build": "npm-run-all -s clean build:*",
+    "build:rollup": "rollup -c",
+    "build:css": "sass --no-source-map src/sass/main.sass public/build/bundle.css",
     "dev": "npm-run-all -p dev:*",
-    "dev:ts": "tsc -w",
-    "dev:sass": "sass --watch src/sass/main.sass public/dist/css/main.css",
+    "dev:rollup": "rollup -c -w",
+    "dev:css": "sass --watch src/sass/main.sass public/build/bundle.css",
+    "clean": "rimraf public/build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
