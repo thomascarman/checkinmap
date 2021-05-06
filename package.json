@@ -10,6 +10,7 @@
     "build:rollup": "rollup -c",
     "build:css": "sass --no-source-map src/sass/main.sass public/build/bundle.css",
     "dev": "npm-run-all -p dev:*",
+    "dev:functions": "firebase functions:config:get > .runtimeconfig.json && firebase serve",
     "dev:rollup": "rollup -c -w",
     "dev:css": "sass --watch src/sass/main.sass public/build/bundle.css",
     "clean": "rimraf public/build",
