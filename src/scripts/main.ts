@@ -1,5 +1,6 @@
 // Constent Values
 const API_KEY: string | undefined = process.env.API_KEY;
+const FB_APP: string | undefined = process.env.FB_APP;
 const FORM: HTMLElement | null = document.getElementById("form");
 const BTN: HTMLButtonElement = document.createElement("button");
 const MAP: L.Map = L.map("hot-map-container");
@@ -51,4 +52,11 @@ function displayAddresses(addresses: any[]) {
   }
 }
 
-displayAddresses(["Las Vegas Nevada 88901"]);
+if (FB_APP)
+  fetch(FB_APP)
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res);
+      displayAddresses(res?.data || []);
+    })
+    .catch((err) => console.log(err));

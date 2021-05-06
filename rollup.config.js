@@ -21,7 +21,7 @@ export default {
   plugins: [
     replace({
       "process.env.API_KEY": JSON.stringify(process.env.API_KEY),
-      "process.env.KEY": JSON.stringify(process.env.KEY),
+      "process.env.FB_APP": JSON.stringify(process.env.FB_APP),
     }),
     resolve({
       browser: true,
