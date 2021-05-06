@@ -4,3 +4,4 @@ public/build
 
 .firebaserc
 firebase-debug.log
+.runtimeconfig.json
