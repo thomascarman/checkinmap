@@ -1,5 +1,7 @@
 // Constent Values
+declare const JotformFeedback: any;
 const API_KEY: string | undefined = process.env.API_KEY;
+const FORM_ID: string | undefined = process.env.FORM_ID;
 const FB_APP: string | undefined = process.env.FB_APP;
 const FORM: HTMLElement | null = document.getElementById("form");
 const BTN: HTMLButtonElement = document.createElement("button");
