@@ -27,6 +27,21 @@ L.tileLayer(
   }
 ).addTo(MAP);
 
+if (FORM_ID)
+  new JotformFeedback({
+    formId: FORM_ID,
+    buttonText: "Check In",
+    base: "https://form.jotform.com/",
+    background: "#F59202",
+    fontColor: "#FFFFFF",
+    buttonSide: "top",
+    buttonAlign: "center",
+    type: false,
+    width: 700,
+    height: 500,
+    isCardForm: false,
+  });
+
 // Toggle Display of Dialog Form
 BTN.addEventListener("click", (evt) => {
   evt.preventDefault();
