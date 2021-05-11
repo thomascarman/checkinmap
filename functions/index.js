@@ -40,13 +40,15 @@ exports.reqMapData = functions.https.onRequest(async (req, res) => {
 
     if (!dataOld) res.send({ data });
     else {
+      const snapshot = await db.collection("users").listDocuments();
+
       let jotData = await fetch(jotform);
       let jsonData = await jotData.json();
 
       formatData(jsonData?.content).then((fData) => {
         // Commit all data to firebase
         fData.forEach((doc) => {
-          const docRef = db.collection("users").doc(doc.place_name);
+          const docRef = db.collection("users").doc();
 
           // Add update Time
           let date = new Date();
@@ -54,6 +56,10 @@ exports.reqMapData = functions.https.onRequest(async (req, res) => {
           doc.update = date;
 
           batch.set(docRef, doc);
+        });
+
+        snapshot.map((val) => {
+          batch.delete(val);
         });
 
         batch.commit();
