@@ -14,27 +14,51 @@ let mapKey = functions.config().map.key;
 /**
  * reqMapData is the firebase function to get data from database.
  */
-exports.reqMapData = functions.https.onRequest((req, res) => {
+exports.reqMapData = functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
+
   if (req.method === "GET" || !req.body.message) {
-    let jotData = await fetch(jotform);
-    let jsonData = await jotData.json();
+    const snapshot = await db.collection("users").get();
+    const data = await snapshot.docs.map((doc) => {
+      let docData = doc.data();
 
-    formatData(jsonData?.content).then((fData) => {
-      // Commit all data to firebase
-      fData.forEach((doc) => {
-        const docRef = db.collection("users").doc(doc.place_name);
-        // doc.update = db.FieldValue.serverTimestamp();
-        batch.set(docRef, doc);
-      });
+      if (docData.update) {
+        docData.update = docData.update.toDate();
+      }
 
-      batch.commit();
-
-      // Return data request
-      res.send({
-        data: fData,
-      });
+      return docData;
     });
+
+    let dataOld = data?.[0]?.update
+      ? new Date(data?.[0]?.update) < new Date()
+      : true;
+
+    if (!dataOld) res.send({ data });
+    else {
+      let jotData = await fetch(jotform);
+      let jsonData = await jotData.json();
+
+      formatData(jsonData?.content).then((fData) => {
+        // Commit all data to firebase
+        fData.forEach((doc) => {
+          const docRef = db.collection("users").doc(doc.place_name);
+
+          // Add update Time
+          let date = new Date();
+          date.setDate(date.getDate() + 7);
+          doc.update = date;
+
+          batch.set(docRef, doc);
+        });
+
+        batch.commit();
+
+        // Return data request
+        res.send({
+          data: fData,
+        });
+      });
+    }
   }
 });
 
