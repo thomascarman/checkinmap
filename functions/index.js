@@ -1,6 +1,11 @@
 const functions = require("firebase-functions");
 const fetch = require("node-fetch");
 
+const admin = require("firebase-admin");
+admin.initializeApp();
+const db = admin.firestore();
+const batch = db.batch();
+
 // Jotform API KEY and form id
 let formKey = functions.config().form.key;
 let formId = functions.config().form.id;
@@ -78,7 +83,6 @@ function formatData(data) {
           answer?.answer?.postal ||
           answer?.answer?.country
         ) {
-          console.log(answer?.answer);
           return `${answer?.answer?.city || ""} ${
             answer?.answer?.state || ""
           } ${answer?.answer?.postal || ""} ${
