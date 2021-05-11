@@ -17,17 +17,24 @@ let mapKey = functions.config().map.key;
 exports.reqMapData = functions.https.onRequest((req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   if (req.method === "GET" || !req.body.message) {
-    fetch(jotform)
-      .then((r) => {
-        return r.json();
-      })
-      .then((data) => {
-        formatData(data?.content).then((fData) => {
-          res.send({
-            data: fData,
-          });
-        });
+    let jotData = await fetch(jotform);
+    let jsonData = await jotData.json();
+
+    formatData(jsonData?.content).then((fData) => {
+      // Commit all data to firebase
+      fData.forEach((doc) => {
+        const docRef = db.collection("users").doc(doc.place_name);
+        // doc.update = db.FieldValue.serverTimestamp();
+        batch.set(docRef, doc);
       });
+
+      batch.commit();
+
+      // Return data request
+      res.send({
+        data: fData,
+      });
+    });
   }
 });
 
